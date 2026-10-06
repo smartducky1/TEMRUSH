@@ -62,15 +62,139 @@
         <div class="panel-copy">
           <p class="eyebrow">STEP INTO THE RING</p>
           <h2>APPLY FOR <span>WHITELIST</span></h2>
-          <p>Drop your details below. Your application will be added to the leaderboard after submission.</p>
+          <p>Complete the tasks below. Submit your proof links, then enter your details to apply.</p>
         </div>
+
         <form id="wlForm">
+
+          <!-- TASK 01: FOLLOW -->
+          <div class="task-item">
+            <input id="taskFollow" type="checkbox" required>
+            <span class="task-check"></span>
+
+            <div class="task-content">
+              <strong>01 — FOLLOW US ON X</strong>
+              <small>Follow @TemrushNFTs on X</small>
+            </div>
+
+            <a
+              class="task-link"
+              href="https://x.com/TemrushNFTs"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              FOLLOW ↗
+            </a>
+          </div>
+
+          <!-- TASK 02: LIKE & RT -->
+          <div class="task-item">
+            <input id="taskLikeRt" type="checkbox" required>
+            <span class="task-check"></span>
+
+            <div class="task-content">
+              <strong>02 — LIKE &amp; RT PINNED POST</strong>
+              <small>Like and repost the pinned TEMRUSH post</small>
+            </div>
+
+            <a
+              class="task-link"
+              href="https://x.com/TemrushNFTs"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              LIKE + RT ↗
+            </a>
+          </div>
+
+          <!-- TASK 03: QUOTE TWEET -->
+          <div class="task-item task-with-proof">
+            <input id="taskQuote" type="checkbox" required>
+            <span class="task-check"></span>
+
+            <div class="task-content">
+              <strong>03 — QT THE PINNED POST</strong>
+              <small>Quote-tweet the pinned TEMRUSH post</small>
+            </div>
+
+            <a
+              class="task-link"
+              href="https://x.com/TemrushNFTs"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              QT ↗
+            </a>
+
+            <input
+              id="quoteProof"
+              class="proof-input"
+              type="url"
+              placeholder="Paste your QT link"
+              required
+            >
+
+            <small class="proof-example">
+              Example: https://x.com/username/status/123456789...
+            </small>
+          </div>
+
+          <!-- TASK 04: TAG 3 FRIENDS -->
+          <div class="task-item task-with-proof">
+            <input id="taskTagFriends" type="checkbox" required>
+            <span class="task-check"></span>
+
+            <div class="task-content">
+              <strong>04 — TAG 3 FRIENDS</strong>
+              <small>Tag 3 friends in the pinned TEMRUSH post</small>
+            </div>
+
+            <a
+              class="task-link"
+              href="https://x.com/TemrushNFTs"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              TAG ↗
+            </a>
+
+            <input
+              id="tagFriendsProof"
+              class="proof-input"
+              type="url"
+              placeholder="Paste your post link"
+              required
+            >
+
+            <small class="proof-example">
+              Example: https://x.com/username/status/123456789...
+            </small>
+          </div>
+
+          <!-- X USERNAME -->
           <label>X USERNAME</label>
-          <input id="xUsername" type="text" placeholder="@yourusername" required>
+          <input
+            id="xUsername"
+            type="text"
+            placeholder="@yourusername"
+            required
+          >
+
+          <!-- EVM WALLET -->
           <label>EVM WALLET</label>
-          <input id="wallet" type="text" placeholder="0x..." required>
-          <button class="button full" type="submit">SUBMIT APPLICATION <span>→</span></button>
+          <input
+            id="wallet"
+            type="text"
+            placeholder="0x..."
+            required
+          >
+
+          <button class="button full" type="submit">
+            SUBMIT APPLICATION <span>→</span>
+          </button>
+
           <div id="formMessage" class="form-message"></div>
+
         </form>
       </div>
     </section>
@@ -80,15 +204,45 @@
         <p class="eyebrow">THE FIGHT CARD</p>
         <h2>LEADER<span>BOARD</span></h2>
       </div>
+
       <div class="table-wrap">
         <table>
           <thead>
-            <tr><th>#</th><th>X USERNAME</th><th>WALLET</th><th>STATUS</th></tr>
+            <tr>
+              <th>#</th>
+              <th>X USERNAME</th>
+              <th>WALLET</th>
+              <th>STATUS</th>
+            </tr>
           </thead>
+
           <tbody id="leaderboardBody">
-            <tr><td>01</td><td>@cryptoduck</td><td>0x3a4f...92c1</td><td><span class="status pending">PENDING</span></td></tr>
-            <tr><td>02</td><td>@temrushfan</td><td>0x91de...7a45</td><td><span class="status pending">PENDING</span></td></tr>
-            <tr><td>03</td><td>@apehunter</td><td>0x5c8e...1d90</td><td><span class="status pending">PENDING</span></td></tr>
+            <tr>
+              <td>01</td>
+              <td>@cryptoduck</td>
+              <td>0x3a4f...92c1</td>
+              <td>
+                <span class="status pending">PENDING</span>
+              </td>
+            </tr>
+
+            <tr>
+              <td>02</td>
+              <td>@temrushfan</td>
+              <td>0x91de...7a45</td>
+              <td>
+                <span class="status pending">PENDING</span>
+              </td>
+            </tr>
+
+            <tr>
+              <td>03</td>
+              <td>@apehunter</td>
+              <td>0x5c8e...1d90</td>
+              <td>
+                <span class="status pending">PENDING</span>
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -100,10 +254,12 @@
         <p class="eyebrow">APPLICATION STATUS</p>
         <h2>CHECK YOUR <span>STATUS</span></h2>
         <p>Enter the wallet you used for your application.</p>
+
         <div class="check-row">
           <input id="checkWallet" type="text" placeholder="0x...">
           <button id="checkButton" class="button">CHECK</button>
         </div>
+
         <div id="checkResult" class="check-result"></div>
       </div>
     </section>
@@ -115,6 +271,7 @@
   </footer>
 
   <div id="toast" class="toast"></div>
+
   <script src="script.js"></script>
 </body>
 </html>
