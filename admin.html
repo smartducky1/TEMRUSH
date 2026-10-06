@@ -1,0 +1,1432 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>TEMRUSH — Admin</title>
+
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+
+      background:
+        radial-gradient(
+          circle at top,
+          #172b17 0%,
+          #071007 45%,
+          #030603 100%
+        );
+
+      color: #ffffff;
+
+      font-family: "Inter", sans-serif;
+    }
+
+
+    /* =====================================================
+       PAGE
+    ===================================================== */
+
+    .admin-page {
+      width: 100%;
+      min-height: 100vh;
+
+      padding: 50px 5vw 80px;
+    }
+
+
+    .admin-container {
+      width: 100%;
+      max-width: 1500px;
+
+      margin: 0 auto;
+    }
+
+
+    /* =====================================================
+       HEADER
+    ===================================================== */
+
+    .admin-header {
+      display: flex;
+
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 25px;
+
+      margin-bottom: 40px;
+    }
+
+
+    .logo {
+      font-family: "Bangers", cursive;
+
+      font-size: 42px;
+
+      letter-spacing: 0.04em;
+
+      color: #ffffff;
+
+      text-decoration: none;
+    }
+
+
+    .logo span {
+      color: #9cff20;
+    }
+
+
+    .admin-title {
+      margin: 0;
+
+      font-size: 13px;
+
+      font-weight: 900;
+
+      letter-spacing: 0.2em;
+
+      color: #9cff20;
+    }
+
+
+    /* =====================================================
+       LOGIN
+    ===================================================== */
+
+    .login-card {
+
+      width: 100%;
+      max-width: 520px;
+
+      margin: 100px auto;
+
+      padding: 45px;
+
+      background:
+        rgba(8, 18, 10, 0.9);
+
+      border:
+        1px solid
+        rgba(156, 255, 32, 0.22);
+
+      border-radius: 18px;
+
+      box-shadow:
+        0 30px 80px
+        rgba(0, 0, 0, 0.45);
+    }
+
+
+    .login-card h1 {
+
+      margin: 0 0 10px;
+
+      font-family: "Bangers", cursive;
+
+      font-size: 52px;
+
+      letter-spacing: 0.03em;
+    }
+
+
+    .login-card h1 span {
+      color: #9cff20;
+    }
+
+
+    .login-card p {
+
+      margin: 0 0 28px;
+
+      color: #8f9891;
+
+      line-height: 1.6;
+    }
+
+
+    .input {
+
+      width: 100%;
+
+      height: 58px;
+
+      padding: 0 18px;
+
+      border:
+        1px solid
+        rgba(108, 150, 111, 0.45);
+
+      border-radius: 10px;
+
+      background:
+        rgba(3, 8, 4, 0.75);
+
+      color: #ffffff;
+
+      font-family: "Inter", sans-serif;
+
+      outline: none;
+    }
+
+
+    .input:focus {
+
+      border-color: #9cff20;
+
+      box-shadow:
+        0 0 0 3px
+        rgba(156, 255, 32, 0.08);
+    }
+
+
+    .button {
+
+      width: 100%;
+
+      height: 58px;
+
+      margin-top: 14px;
+
+      border: 0;
+
+      border-radius: 10px;
+
+      background: #9cff20;
+
+      color: #071007;
+
+      font-family: "Inter", sans-serif;
+
+      font-size: 13px;
+
+      font-weight: 900;
+
+      cursor: pointer;
+
+      transition:
+        transform 0.2s ease,
+        background 0.2s ease;
+    }
+
+
+    .button:hover {
+
+      background: #b1ff48;
+
+      transform: translateY(-2px);
+    }
+
+
+    .message {
+
+      min-height: 22px;
+
+      margin-top: 15px;
+
+      font-size: 12px;
+
+      font-weight: 700;
+
+      color: #ff6b6b;
+    }
+
+
+    /* =====================================================
+       DASHBOARD
+    ===================================================== */
+
+    #dashboard {
+      display: none;
+    }
+
+
+    .dashboard-title {
+
+      margin: 0 0 8px;
+
+      font-family: "Bangers", cursive;
+
+      font-size: 64px;
+
+      letter-spacing: 0.03em;
+    }
+
+
+    .dashboard-title span {
+      color: #9cff20;
+    }
+
+
+    .dashboard-subtitle {
+
+      margin: 0 0 35px;
+
+      color: #8f9891;
+
+      font-size: 14px;
+    }
+
+
+    /* =====================================================
+       STATS
+    ===================================================== */
+
+    .stats {
+
+      display: grid;
+
+      grid-template-columns:
+        repeat(3, 1fr);
+
+      gap: 16px;
+
+      margin-bottom: 25px;
+    }
+
+
+    .stat {
+
+      padding: 22px;
+
+      background:
+        rgba(8, 18, 10, 0.8);
+
+      border:
+        1px solid
+        rgba(156, 255, 32, 0.15);
+
+      border-radius: 14px;
+    }
+
+
+    .stat-label {
+
+      display: block;
+
+      margin-bottom: 8px;
+
+      font-size: 10px;
+
+      font-weight: 900;
+
+      letter-spacing: 0.16em;
+
+      color: #7d877f;
+    }
+
+
+    .stat-value {
+
+      font-size: 28px;
+
+      font-weight: 900;
+
+      color: #ffffff;
+    }
+
+
+    /* =====================================================
+       TABLE
+    ===================================================== */
+
+    .table-card {
+
+      width: 100%;
+
+      overflow: hidden;
+
+      background:
+        rgba(8, 18, 10, 0.82);
+
+      border:
+        1px solid
+        rgba(156, 255, 32, 0.15);
+
+      border-radius: 16px;
+    }
+
+
+    .table-scroll {
+
+      width: 100%;
+
+      overflow-x: auto;
+    }
+
+
+    table {
+
+      width: 100%;
+
+      min-width: 1000px;
+
+      border-collapse: collapse;
+    }
+
+
+    th {
+
+      padding: 18px 20px;
+
+      text-align: left;
+
+      background:
+        rgba(156, 255, 32, 0.06);
+
+      color: #9cff20;
+
+      font-size: 10px;
+
+      font-weight: 900;
+
+      letter-spacing: 0.14em;
+
+      white-space: nowrap;
+    }
+
+
+    td {
+
+      padding: 18px 20px;
+
+      border-top:
+        1px solid
+        rgba(255, 255, 255, 0.06);
+
+      color: #d9ded9;
+
+      font-size: 13px;
+
+      white-space: nowrap;
+    }
+
+
+    tr:hover td {
+
+      background:
+        rgba(156, 255, 32, 0.025);
+    }
+
+
+    .wallet {
+
+      font-family: monospace;
+
+      color: #aeb8af;
+    }
+
+
+    .proof {
+
+      display: inline-flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      min-width: 70px;
+
+      height: 34px;
+
+      padding: 0 12px;
+
+      border-radius: 7px;
+
+      background:
+        rgba(156, 255, 32, 0.08);
+
+      border:
+        1px solid
+        rgba(156, 255, 32, 0.2);
+
+      color: #9cff20;
+
+      text-decoration: none;
+
+      font-size: 10px;
+
+      font-weight: 900;
+    }
+
+
+    .proof:hover {
+
+      background:
+        rgba(156, 255, 32, 0.16);
+    }
+
+
+    /* =====================================================
+       STATUS
+    ===================================================== */
+
+    .status {
+
+      display: inline-flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      min-width: 90px;
+
+      height: 32px;
+
+      padding: 0 12px;
+
+      border-radius: 6px;
+
+      font-size: 9px;
+
+      font-weight: 900;
+
+      letter-spacing: 0.08em;
+    }
+
+
+    .status.pending {
+
+      background:
+        rgba(255, 193, 7, 0.1);
+
+      color: #ffc107;
+
+      border:
+        1px solid
+        rgba(255, 193, 7, 0.25);
+    }
+
+
+    .status.approved {
+
+      background:
+        rgba(156, 255, 32, 0.1);
+
+      color: #9cff20;
+
+      border:
+        1px solid
+        rgba(156, 255, 32, 0.25);
+    }
+
+
+    .status.rejected {
+
+      background:
+        rgba(255, 80, 80, 0.1);
+
+      color: #ff7070;
+
+      border:
+        1px solid
+        rgba(255, 80, 80, 0.25);
+    }
+
+
+    /* =====================================================
+       ACTION BUTTONS
+    ===================================================== */
+
+    .actions {
+
+      display: flex;
+
+      gap: 8px;
+    }
+
+
+    .action {
+
+      height: 34px;
+
+      padding: 0 13px;
+
+      border-radius: 7px;
+
+      font-size: 9px;
+
+      font-weight: 900;
+
+      cursor: pointer;
+
+      border: 1px solid;
+
+      transition:
+        transform 0.2s ease,
+        opacity 0.2s ease;
+    }
+
+
+    .action:hover {
+
+      transform: translateY(-1px);
+
+      opacity: 0.85;
+    }
+
+
+    .approve {
+
+      background:
+        rgba(156, 255, 32, 0.1);
+
+      border-color:
+        rgba(156, 255, 32, 0.3);
+
+      color: #9cff20;
+    }
+
+
+    .reject {
+
+      background:
+        rgba(255, 80, 80, 0.1);
+
+      border-color:
+        rgba(255, 80, 80, 0.3);
+
+      color: #ff7070;
+    }
+
+
+    .pending-button {
+
+      background:
+        rgba(255, 193, 7, 0.1);
+
+      border-color:
+        rgba(255, 193, 7, 0.3);
+
+      color: #ffc107;
+    }
+
+
+    /* =====================================================
+       EMPTY
+    ===================================================== */
+
+    .empty {
+
+      padding: 60px 20px;
+
+      text-align: center;
+
+      color: #6f7771;
+
+      font-size: 13px;
+    }
+
+
+    /* =====================================================
+       MOBILE
+    ===================================================== */
+
+    @media (max-width: 700px) {
+
+      .admin-page {
+
+        padding:
+          30px 16px 60px;
+      }
+
+
+      .admin-header {
+
+        align-items: flex-start;
+
+        flex-direction: column;
+      }
+
+
+      .dashboard-title {
+
+        font-size: 48px;
+      }
+
+
+      .stats {
+
+        grid-template-columns: 1fr;
+      }
+
+
+      .login-card {
+
+        margin: 50px auto;
+
+        padding: 30px 22px;
+      }
+
+    }
+
+  </style>
+</head>
+
+
+<body>
+
+  <div class="admin-page">
+
+    <div class="admin-container">
+
+
+      <!-- =================================================
+           LOGIN
+      ================================================== -->
+
+      <section id="login">
+
+        <div class="login-card">
+
+          <h1>
+            TEM<span>RUSH</span>
+            ADMIN
+          </h1>
+
+          <p>
+            Enter your admin key to access
+            whitelist applications.
+          </p>
+
+          <input
+            id="adminKey"
+            class="input"
+            type="password"
+            placeholder="ADMIN KEY"
+            autocomplete="off"
+          >
+
+          <button
+            id="loginButton"
+            class="button"
+            type="button"
+          >
+            ACCESS ADMIN
+          </button>
+
+          <div
+            id="loginMessage"
+            class="message"
+          ></div>
+
+        </div>
+
+      </section>
+
+
+      <!-- =================================================
+           DASHBOARD
+      ================================================== -->
+
+      <section id="dashboard">
+
+
+        <header class="admin-header">
+
+          <div>
+
+            <a
+              class="logo"
+              href="index.html"
+            >
+              TEM<span>RUSH</span>
+            </a>
+
+          </div>
+
+          <p class="admin-title">
+            WHITELIST CONTROL
+          </p>
+
+        </header>
+
+
+        <h1 class="dashboard-title">
+          APPLICATION <span>CONTROL</span>
+        </h1>
+
+        <p class="dashboard-subtitle">
+          Review, approve or reject TEMRUSH whitelist applications.
+        </p>
+
+
+        <!-- =================================================
+             STATS
+        ================================================== -->
+
+        <div class="stats">
+
+          <div class="stat">
+
+            <span class="stat-label">
+              TOTAL
+            </span>
+
+            <span
+              id="totalCount"
+              class="stat-value"
+            >
+              0
+            </span>
+
+          </div>
+
+
+          <div class="stat">
+
+            <span class="stat-label">
+              PENDING
+            </span>
+
+            <span
+              id="pendingCount"
+              class="stat-value"
+            >
+              0
+            </span>
+
+          </div>
+
+
+          <div class="stat">
+
+            <span class="stat-label">
+              APPROVED
+            </span>
+
+            <span
+              id="approvedCount"
+              class="stat-value"
+            >
+              0
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <!-- =================================================
+             APPLICATION TABLE
+        ================================================== -->
+
+        <div class="table-card">
+
+          <div class="table-scroll">
+
+            <table>
+
+              <thead>
+
+                <tr>
+
+                  <th>
+                    #
+                  </th>
+
+                  <th>
+                    X USERNAME
+                  </th>
+
+                  <th>
+                    WALLET
+                  </th>
+
+                  <th>
+                    QT PROOF
+                  </th>
+
+                  <th>
+                    TAG PROOF
+                  </th>
+
+                  <th>
+                    STATUS
+                  </th>
+
+                  <th>
+                    ACTION
+                  </th>
+
+                </tr>
+
+              </thead>
+
+
+              <tbody id="applicationsBody">
+
+                <tr>
+
+                  <td
+                    colspan="7"
+                    class="empty"
+                  >
+                    LOADING APPLICATIONS...
+                  </td>
+
+                </tr>
+
+              </tbody>
+
+            </table>
+
+          </div>
+
+        </div>
+
+
+      </section>
+
+    </div>
+
+  </div>
+
+
+  <script>
+
+    // =====================================================
+    // CONFIG
+    // =====================================================
+
+    const API_URL =
+      "https://script.google.com/macros/s/AKfycbzPIpFMNi-imzFGVu2csJSxtfziGPPK33pl5HzZddjjA1DGYm1RD67bcGtRBHuP6QY5/exec";
+
+
+    // =====================================================
+    // ELEMENTS
+    // =====================================================
+
+    const login =
+      document.getElementById("login");
+
+    const dashboard =
+      document.getElementById("dashboard");
+
+    const adminKeyInput =
+      document.getElementById("adminKey");
+
+    const loginButton =
+      document.getElementById("loginButton");
+
+    const loginMessage =
+      document.getElementById("loginMessage");
+
+    const applicationsBody =
+      document.getElementById(
+        "applicationsBody"
+      );
+
+    const totalCount =
+      document.getElementById(
+        "totalCount"
+      );
+
+    const pendingCount =
+      document.getElementById(
+        "pendingCount"
+      );
+
+    const approvedCount =
+      document.getElementById(
+        "approvedCount"
+      );
+
+
+    let ADMIN_KEY = "";
+
+    let applications = [];
+
+
+    // =====================================================
+    // API
+    // =====================================================
+
+    async function apiRequest(payload) {
+
+      const response =
+        await fetch(
+          API_URL,
+          {
+            method: "POST",
+
+            headers: {
+              "Content-Type":
+                "text/plain;charset=utf-8"
+            },
+
+            body:
+              JSON.stringify(payload)
+          }
+        );
+
+
+      return await response.json();
+
+    }
+
+
+    // =====================================================
+    // WALLET DISPLAY
+    // =====================================================
+
+    function shortWallet(wallet) {
+
+      if (!wallet) {
+        return "";
+      }
+
+
+      return wallet.length > 12
+
+        ? `${wallet.slice(0, 6)}...${wallet.slice(-4)}`
+
+        : wallet;
+
+    }
+
+
+    // =====================================================
+    // ESCAPE HTML
+    // =====================================================
+
+    function escapeHtml(value) {
+
+      return String(value || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+    }
+
+
+    // =====================================================
+    // LOAD APPLICATIONS
+    // =====================================================
+
+    async function loadApplications() {
+
+      try {
+
+        const result =
+          await apiRequest({
+
+            action: "admin_list",
+
+            adminKey:
+              ADMIN_KEY
+
+          });
+
+
+        if (!result.ok) {
+
+          loginMessage.textContent =
+            result.error ||
+            "Unable to load applications.";
+
+          return;
+
+        }
+
+
+        applications =
+          result.applications || [];
+
+
+        renderApplications();
+
+
+      } catch (error) {
+
+        console.error(error);
+
+        applicationsBody.innerHTML = `
+          <tr>
+            <td
+              colspan="7"
+              class="empty"
+            >
+              ADMIN SERVICE UNAVAILABLE
+            </td>
+          </tr>
+        `;
+
+      }
+
+    }
+
+
+    // =====================================================
+    // RENDER APPLICATIONS
+    // =====================================================
+
+    function renderApplications() {
+
+      totalCount.textContent =
+        applications.length;
+
+
+      pendingCount.textContent =
+        applications.filter(
+          app =>
+            String(app.status)
+              .toUpperCase() ===
+            "PENDING"
+        ).length;
+
+
+      approvedCount.textContent =
+        applications.filter(
+          app =>
+            String(app.status)
+              .toUpperCase() ===
+            "APPROVED"
+        ).length;
+
+
+      if (
+        applications.length === 0
+      ) {
+
+        applicationsBody.innerHTML = `
+          <tr>
+            <td
+              colspan="7"
+              class="empty"
+            >
+              NO APPLICATIONS YET
+            </td>
+          </tr>
+        `;
+
+        return;
+
+      }
+
+
+      applicationsBody.innerHTML =
+        applications.map(
+          (app, index) => {
+
+            const status =
+              String(
+                app.status ||
+                "PENDING"
+              ).toUpperCase();
+
+
+            return `
+
+              <tr>
+
+                <td>
+                  ${String(
+                    index + 1
+                  ).padStart(2, "0")}
+                </td>
+
+                <td>
+                  ${escapeHtml(
+                    app.xUsername
+                  )}
+                </td>
+
+                <td class="wallet">
+                  ${escapeHtml(
+                    shortWallet(
+                      app.wallet
+                    )
+                  )}
+                </td>
+
+                <td>
+
+                  <a
+                    class="proof"
+                    href="${escapeHtml(
+                      app.quoteProof
+                    )}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    VIEW QT
+                  </a>
+
+                </td>
+
+                <td>
+
+                  <a
+                    class="proof"
+                    href="${escapeHtml(
+                      app.tagFriendsProof
+                    )}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    VIEW TAG
+                  </a>
+
+                </td>
+
+                <td>
+
+                  <span
+                    class="status ${status.toLowerCase()}"
+                  >
+                    ${status}
+                  </span>
+
+                </td>
+
+                <td>
+
+                  <div class="actions">
+
+                    <button
+                      class="action approve"
+                      onclick="updateStatus(
+                        ${app.row},
+                        'APPROVED'
+                      )"
+                    >
+                      APPROVE
+                    </button>
+
+                    <button
+                      class="action reject"
+                      onclick="updateStatus(
+                        ${app.row},
+                        'REJECTED'
+                      )"
+                    >
+                      REJECT
+                    </button>
+
+                    <button
+                      class="action pending-button"
+                      onclick="updateStatus(
+                        ${app.row},
+                        'PENDING'
+                      )"
+                    >
+                      PENDING
+                    </button>
+
+                  </div>
+
+                </td>
+
+              </tr>
+
+            `;
+
+          }
+        ).join("");
+
+    }
+
+
+    // =====================================================
+    // UPDATE STATUS
+    // =====================================================
+
+    async function updateStatus(
+      row,
+      status
+    ) {
+
+      try {
+
+        const result =
+          await apiRequest({
+
+            action:
+              "admin_update",
+
+            adminKey:
+              ADMIN_KEY,
+
+            row:
+              row,
+
+            status:
+              status
+
+          });
+
+
+        if (!result.ok) {
+
+          alert(
+            result.error ||
+            "Unable to update status."
+          );
+
+          return;
+
+        }
+
+
+        await loadApplications();
+
+
+      } catch (error) {
+
+        console.error(error);
+
+        alert(
+          "ADMIN SERVICE UNAVAILABLE."
+        );
+
+      }
+
+    }
+
+
+    // =====================================================
+    // LOGIN
+    // =====================================================
+
+    loginButton.addEventListener(
+      "click",
+      async () => {
+
+        const key =
+          adminKeyInput.value.trim();
+
+
+        if (!key) {
+
+          loginMessage.textContent =
+            "ENTER YOUR ADMIN KEY.";
+
+          return;
+
+        }
+
+
+        ADMIN_KEY = key;
+
+
+        loginButton.disabled =
+          true;
+
+        loginButton.textContent =
+          "CHECKING...";
+
+
+        const result =
+          await apiRequest({
+
+            action:
+              "admin_list",
+
+            adminKey:
+              ADMIN_KEY
+
+          });
+
+
+        if (!result.ok) {
+
+          ADMIN_KEY = "";
+
+          loginButton.disabled =
+            false;
+
+          loginButton.textContent =
+            "ACCESS ADMIN";
+
+          loginMessage.textContent =
+            result.error ||
+            "INVALID ADMIN KEY.";
+
+          return;
+
+        }
+
+
+        login.style.display =
+          "none";
+
+        dashboard.style.display =
+          "block";
+
+
+        applications =
+          result.applications || [];
+
+
+        renderApplications();
+
+
+        loginButton.disabled =
+          false;
+
+        loginButton.textContent =
+          "ACCESS ADMIN";
+
+      }
+    );
+
+
+    // =====================================================
+    // ENTER KEY LOGIN
+    // =====================================================
+
+    adminKeyInput.addEventListener(
+      "keydown",
+      event => {
+
+        if (
+          event.key === "Enter"
+        ) {
+
+          loginButton.click();
+
+        }
+
+      }
+    );
+
+  </script>
+
+</body>
+
+</html>
