@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TEMRUSH — NFT</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="grain"></div>
+
+  <header class="nav">
+    <a class="brand" href="#home">TEM<span>RUSH</span></a>
+    <nav>
+      <a href="#home">HOME</a>
+      <a href="#art">ART</a>
+      <a href="#leaderboard">LEADERBOARD</a>
+      <a href="#check">CHECK</a>
+    </nav>
+    <a class="nav-cta" href="#apply">APPLY WL</a>
+  </header>
+
+  <main>
+    <section id="home" class="hero">
+      <div class="hero-overlay"></div>
+      <div class="hero-copy">
+        <p class="eyebrow">WELCOME TO THE RING</p>
+        <h1>TEM<span>RUSH</span></h1>
+        <p class="hero-text">A wild crew stepping into the ring. Choose your fighter, make your move and join the rush.</p>
+        <a class="button" href="#apply">APPLY FOR WL <span>→</span></a>
+      </div>
+      <div class="hero-badge">NO FEAR<br><b>JUST RUSH</b></div>
+      <div class="scroll-cue">SCROLL <span>↓</span></div>
+    </section>
+
+    <section id="art" class="art-section">
+      <div class="section-heading">
+        <p class="eyebrow">THE COLLECTION</p>
+        <h2>MEET THE <span>RUSH</span></h2>
+      </div>
+
+      <div class="marquee-window">
+        <div class="marquee-track">
+          <div class="art-card"><img src="assets/art-01.jpg" alt="TEMRUSH character"></div>
+          <div class="art-card"><img src="assets/art-02.jpg" alt="TEMRUSH character"></div>
+          <div class="art-card"><img src="assets/art-03.jpg" alt="TEMRUSH character"></div>
+          <div class="art-card"><img src="assets/art-04.jpg" alt="TEMRUSH character"></div>
+          <div class="art-card"><img src="assets/art-01.jpg" alt="TEMRUSH character"></div>
+          <div class="art-card"><img src="assets/art-02.jpg" alt="TEMRUSH character"></div>
+          <div class="art-card"><img src="assets/art-03.jpg" alt="TEMRUSH character"></div>
+          <div class="art-card"><img src="assets/art-04.jpg" alt="TEMRUSH character"></div>
+        </div>
+      </div>
+      <p class="marquee-note">ART CAROUSEL • MOVING LEFT TO RIGHT</p>
+    </section>
+
+    <section id="apply" class="apply-section">
+      <div class="apply-panel">
+        <div class="panel-copy">
+          <p class="eyebrow">STEP INTO THE RING</p>
+          <h2>APPLY FOR <span>WHITELIST</span></h2>
+          <p>Drop your details below. Your application will be added to the leaderboard after submission.</p>
+        </div>
+        <form id="wlForm">
+          <label>X USERNAME</label>
+          <input id="xUsername" type="text" placeholder="@yourusername" required>
+          <label>EVM WALLET</label>
+          <input id="wallet" type="text" placeholder="0x..." required>
+          <button class="button full" type="submit">SUBMIT APPLICATION <span>→</span></button>
+          <div id="formMessage" class="form-message"></div>
+        </form>
+      </div>
+    </section>
+
+    <section id="leaderboard" class="board-section">
+      <div class="section-heading">
+        <p class="eyebrow">THE FIGHT CARD</p>
+        <h2>LEADER<span>BOARD</span></h2>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>#</th><th>X USERNAME</th><th>WALLET</th><th>STATUS</th></tr>
+          </thead>
+          <tbody id="leaderboardBody">
+            <tr><td>01</td><td>@cryptoduck</td><td>0x3a4f...92c1</td><td><span class="status pending">PENDING</span></td></tr>
+            <tr><td>02</td><td>@temrushfan</td><td>0x91de...7a45</td><td><span class="status pending">PENDING</span></td></tr>
+            <tr><td>03</td><td>@apehunter</td><td>0x5c8e...1d90</td><td><span class="status pending">PENDING</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="check" class="check-section">
+      <div class="check-card">
+        <div class="check-icon">⌕</div>
+        <p class="eyebrow">APPLICATION STATUS</p>
+        <h2>CHECK YOUR <span>STATUS</span></h2>
+        <p>Enter the wallet you used for your application.</p>
+        <div class="check-row">
+          <input id="checkWallet" type="text" placeholder="0x...">
+          <button id="checkButton" class="button">CHECK</button>
+        </div>
+        <div id="checkResult" class="check-result"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="brand">TEM<span>RUSH</span></div>
+    <p>MORE THAN JUST NFTS.</p>
+  </footer>
+
+  <div id="toast" class="toast"></div>
+  <script src="script.js"></script>
+</body>
+</html>
