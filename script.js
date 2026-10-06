@@ -6,7 +6,7 @@ const toast = document.getElementById("toast");
 const submissions = [];
 
 // Set this after deploying Google Apps Script.
-const API_URL = "PASTE_YOUR_APPS_SCRIPT_URL_HERE";
+const API_URL = "https://script.google.com/macros/s/AKfycbzPIpFMNi-imzFGVu2csJSxtfziGPPK33pl5HzZddjjA1DGYm1RD67bcGtRBHuP6QY5/exec";
 
 
 // =====================================================
