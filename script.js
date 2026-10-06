@@ -35,21 +35,9 @@ function validUrl(url) {
 }
 
 
+// Accept any URL beginning with https://x.com/
 function validXProof(url) {
-  if (!validUrl(url)) return false;
-
-  try {
-    const hostname = new URL(url).hostname.toLowerCase();
-
-    return (
-      hostname === "x.com" ||
-      hostname.endsWith(".x.com") ||
-      hostname === "twitter.com" ||
-      hostname.endsWith(".twitter.com")
-    );
-  } catch {
-    return false;
-  }
+  return /^https:\/\/x\.com\/.+/i.test(url.trim());
 }
 
 
