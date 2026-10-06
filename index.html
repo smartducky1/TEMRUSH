@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>TEMRUSH — NFT</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,7 +15,216 @@
   >
 
   <link rel="stylesheet" href="style.css">
+
+  <!-- TASK FORM OVERRIDES -->
+  <style>
+
+    /* =========================
+       TASK CONTAINER
+    ========================== */
+
+    .task-item {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 14px;
+      box-sizing: border-box;
+    }
+
+
+    /* =========================
+       TASK TITLE
+    ========================== */
+
+    .task-content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .task-content strong {
+      display: block;
+      font-family: "Inter", sans-serif;
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      color: #ffffff;
+      line-height: 1.2;
+      white-space: nowrap;
+    }
+
+
+    /* =========================
+       TASK BUTTON
+    ========================== */
+
+    .task-link {
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      min-width: 115px;
+      height: 48px;
+      padding: 0 20px;
+
+      box-sizing: border-box;
+
+      background: #9cff20;
+      border: 2px solid #9cff20;
+      border-radius: 10px;
+
+      color: #08100a;
+      font-family: "Inter", sans-serif;
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: 0.03em;
+
+      text-decoration: none;
+
+      transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease;
+    }
+
+    .task-link:hover {
+      background: #b4ff4b;
+      border-color: #b4ff4b;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(156, 255, 32, 0.15);
+    }
+
+
+    /* =========================
+       PROOF INPUTS
+    ========================== */
+
+    .proof-input {
+      flex: 0 1 330px;
+      width: 330px;
+      min-width: 0;
+      height: 48px;
+
+      box-sizing: border-box;
+
+      padding: 0 18px;
+
+      background: rgba(5, 14, 8, 0.55);
+      border: 2px solid rgba(108, 150, 111, 0.45);
+      border-radius: 10px;
+
+      color: #ffffff;
+
+      font-family: "Inter", sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+
+      outline: none;
+
+      transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+    }
+
+    .proof-input::placeholder {
+      color: #777d78;
+      opacity: 1;
+    }
+
+    .proof-input:focus {
+      border-color: #9cff20;
+      box-shadow: 0 0 0 3px rgba(156, 255, 32, 0.08);
+    }
+
+
+    /* =========================
+       FORM INPUTS
+       KEEP SAME TEMRUSH STYLE
+    ========================== */
+
+    #xUsername,
+    #wallet {
+      width: 100%;
+      height: 72px;
+      box-sizing: border-box;
+
+      padding: 0 22px;
+
+      background: rgba(5, 14, 8, 0.55);
+      border: 2px solid rgba(108, 150, 111, 0.45);
+      border-radius: 12px;
+
+      color: #ffffff;
+
+      font-family: "Inter", sans-serif;
+      font-size: 17px;
+      font-weight: 500;
+
+      outline: none;
+
+      transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+    }
+
+    #xUsername::placeholder,
+    #wallet::placeholder {
+      color: #777d78;
+      opacity: 1;
+    }
+
+    #xUsername:focus,
+    #wallet:focus {
+      border-color: #9cff20;
+      box-shadow: 0 0 0 3px rgba(156, 255, 32, 0.08);
+    }
+
+
+    /* =========================
+       TASK SPACING
+    ========================== */
+
+    #wlForm {
+      width: 100%;
+    }
+
+
+    /* =========================
+       MOBILE
+    ========================== */
+
+    @media (max-width: 800px) {
+
+      .task-item {
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .task-content {
+        flex: 1 1 100%;
+      }
+
+      .task-content strong {
+        white-space: normal;
+      }
+
+      .task-link {
+        min-width: 110px;
+        height: 48px;
+      }
+
+      .proof-input {
+        flex: 1 1 calc(100% - 125px);
+        width: auto;
+      }
+
+    }
+
+  </style>
+
 </head>
+
 
 <body>
 
@@ -191,6 +401,8 @@
       <div class="apply-panel">
 
 
+        <!-- LEFT SIDE -->
+
         <div class="panel-copy">
 
           <p class="eyebrow">
@@ -209,10 +421,12 @@
         </div>
 
 
+        <!-- RIGHT SIDE -->
+
         <form id="wlForm">
 
 
-          <!-- FOLLOW TASK -->
+          <!-- FOLLOW -->
 
           <div class="task-item">
 
@@ -226,15 +440,13 @@
               target="_blank"
               rel="noopener noreferrer"
             >
-              <button type="button" class="task-button">
-                FOLLOW
-              </button>
+              FOLLOW
             </a>
 
           </div>
 
 
-          <!-- LIKE & RT TASK -->
+          <!-- LIKE + RT -->
 
           <div class="task-item">
 
@@ -248,15 +460,13 @@
               target="_blank"
               rel="noopener noreferrer"
             >
-              <button type="button" class="task-button">
-                LIKE + RT
-              </button>
+              LIKE + RT
             </a>
 
           </div>
 
 
-          <!-- QUOTE TASK -->
+          <!-- QT -->
 
           <div class="task-item task-with-proof">
 
@@ -270,9 +480,7 @@
               target="_blank"
               rel="noopener noreferrer"
             >
-              <button type="button" class="task-button">
-                QT
-              </button>
+              QT
             </a>
 
             <input
@@ -286,7 +494,7 @@
           </div>
 
 
-          <!-- TAG FRIENDS TASK -->
+          <!-- TAG FRIENDS -->
 
           <div class="task-item task-with-proof">
 
@@ -300,9 +508,7 @@
               target="_blank"
               rel="noopener noreferrer"
             >
-              <button type="button" class="task-button">
-                TAG
-              </button>
+              TAG
             </a>
 
             <input
