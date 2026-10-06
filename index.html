@@ -16,71 +16,173 @@
 
   <link rel="stylesheet" href="style.css">
 
-  <!-- TASK FORM OVERRIDES -->
+
+  <!-- =====================================================
+       APPLY WL LAYOUT FIX
+  ====================================================== -->
+
   <style>
 
-    /* =========================
-       TASK CONTAINER
-    ========================== */
+    /* =====================================================
+       APPLY SECTION
+    ====================================================== */
 
-    .task-item {
+    .apply-section {
       width: 100%;
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      margin-bottom: 14px;
+      padding: 100px 5vw;
       box-sizing: border-box;
     }
 
 
-    /* =========================
-       TASK TITLE
-    ========================== */
+    /* =====================================================
+       MAIN APPLY PANEL
+    ====================================================== */
+
+    .apply-panel {
+      width: 100%;
+      max-width: 1400px;
+      min-height: 650px;
+
+      margin: 0 auto;
+
+      padding: 70px 75px;
+
+      box-sizing: border-box;
+
+      display: grid;
+      grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+      gap: 80px;
+
+      align-items: center;
+    }
+
+
+    /* =====================================================
+       LEFT SIDE
+    ====================================================== */
+
+    .panel-copy {
+      min-width: 0;
+    }
+
+    .panel-copy h2 {
+      max-width: 650px;
+    }
+
+    .panel-copy p:last-child {
+      max-width: 600px;
+    }
+
+
+    /* =====================================================
+       FORM
+    ====================================================== */
+
+    #wlForm {
+      width: 100%;
+      min-width: 0;
+
+      display: flex;
+      flex-direction: column;
+
+      box-sizing: border-box;
+    }
+
+
+    /* =====================================================
+       TASK ROW
+    ====================================================== */
+
+    .task-item {
+      width: 100%;
+      min-height: 58px;
+
+      display: grid;
+
+      grid-template-columns: minmax(0, 1fr) auto;
+
+      align-items: center;
+
+      column-gap: 16px;
+
+      margin-bottom: 14px;
+
+      box-sizing: border-box;
+    }
+
+
+    /* =====================================================
+       TASK WITH PROOF
+    ====================================================== */
+
+    .task-item.task-with-proof {
+      grid-template-columns:
+        minmax(0, 1fr)
+        100px
+        minmax(220px, 1fr);
+    }
+
+
+    /* =====================================================
+       TASK TEXT
+    ====================================================== */
 
     .task-content {
-      flex: 1;
       min-width: 0;
     }
 
     .task-content strong {
       display: block;
+
+      margin: 0;
+
       font-family: "Inter", sans-serif;
-      font-size: 14px;
+      font-size: 15px;
       font-weight: 800;
-      letter-spacing: 0.02em;
-      color: #ffffff;
+
       line-height: 1.2;
+
+      letter-spacing: 0.01em;
+
+      color: #ffffff;
+
       white-space: nowrap;
     }
 
 
-    /* =========================
+    /* =====================================================
        TASK BUTTON
-    ========================== */
+    ====================================================== */
 
     .task-link {
-      flex-shrink: 0;
-      display: inline-flex;
+      width: 100%;
+      min-width: 100px;
+      height: 52px;
+
+      padding: 0 18px;
+
+      display: flex;
       align-items: center;
       justify-content: center;
-
-      min-width: 115px;
-      height: 48px;
-      padding: 0 20px;
 
       box-sizing: border-box;
 
       background: #9cff20;
+
       border: 2px solid #9cff20;
       border-radius: 10px;
 
-      color: #08100a;
+      color: #071007;
+
       font-family: "Inter", sans-serif;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 900;
-      letter-spacing: 0.03em;
+
+      line-height: 1;
 
       text-decoration: none;
+
+      cursor: pointer;
 
       transition:
         transform 0.2s ease,
@@ -89,29 +191,34 @@
     }
 
     .task-link:hover {
-      background: #b4ff4b;
-      border-color: #b4ff4b;
+      background: #b1ff48;
+      border-color: #b1ff48;
+
       transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(156, 255, 32, 0.15);
+
+      box-shadow:
+        0 8px 25px rgba(156, 255, 32, 0.18);
     }
 
 
-    /* =========================
-       PROOF INPUTS
-    ========================== */
+    /* =====================================================
+       PROOF INPUT
+    ====================================================== */
 
     .proof-input {
-      flex: 0 1 330px;
-      width: 330px;
-      min-width: 0;
-      height: 48px;
+      width: 100%;
+      height: 52px;
 
-      box-sizing: border-box;
+      min-width: 0;
 
       padding: 0 18px;
 
+      box-sizing: border-box;
+
       background: rgba(5, 14, 8, 0.55);
+
       border: 2px solid rgba(108, 150, 111, 0.45);
+
       border-radius: 10px;
 
       color: #ffffff;
@@ -134,31 +241,70 @@
 
     .proof-input:focus {
       border-color: #9cff20;
-      box-shadow: 0 0 0 3px rgba(156, 255, 32, 0.08);
+
+      box-shadow:
+        0 0 0 3px rgba(156, 255, 32, 0.08);
     }
 
 
-    /* =========================
-       FORM INPUTS
-       KEEP SAME TEMRUSH STYLE
-    ========================== */
+    /* =====================================================
+       REMOVE OLD TASK ELEMENTS IF PRESENT
+    ====================================================== */
+
+    .task-item input[type="checkbox"],
+    .task-item .task-check,
+    .proof-example {
+      display: none !important;
+    }
+
+
+    /* =====================================================
+       LABELS
+    ====================================================== */
+
+    #wlForm > label {
+      display: block;
+
+      margin-top: 10px;
+      margin-bottom: 10px;
+
+      font-family: "Inter", sans-serif;
+
+      font-size: 12px;
+      font-weight: 900;
+
+      letter-spacing: 0.16em;
+
+      color: #9cff20;
+    }
+
+
+    /* =====================================================
+       USERNAME + WALLET
+    ====================================================== */
 
     #xUsername,
     #wallet {
       width: 100%;
-      height: 72px;
+      height: 68px;
+
       box-sizing: border-box;
 
       padding: 0 22px;
 
+      margin-bottom: 10px;
+
       background: rgba(5, 14, 8, 0.55);
+
       border: 2px solid rgba(108, 150, 111, 0.45);
+
       border-radius: 12px;
 
       color: #ffffff;
 
       font-family: "Inter", sans-serif;
-      font-size: 17px;
+
+      font-size: 16px;
       font-weight: 500;
 
       outline: none;
@@ -177,46 +323,215 @@
     #xUsername:focus,
     #wallet:focus {
       border-color: #9cff20;
-      box-shadow: 0 0 0 3px rgba(156, 255, 32, 0.08);
+
+      box-shadow:
+        0 0 0 3px rgba(156, 255, 32, 0.08);
     }
 
 
-    /* =========================
-       TASK SPACING
-    ========================== */
+    /* =====================================================
+       SUBMIT BUTTON
+    ====================================================== */
 
-    #wlForm {
+    #wlForm .button.full {
       width: 100%;
+      height: 62px;
+
+      margin-top: 12px;
+
+      box-sizing: border-box;
     }
 
 
-    /* =========================
-       MOBILE
-    ========================== */
+    /* =====================================================
+       MESSAGE
+    ====================================================== */
 
-    @media (max-width: 800px) {
+    #formMessage {
+      width: 100%;
+      box-sizing: border-box;
+    }
 
-      .task-item {
-        flex-wrap: wrap;
-        gap: 10px;
+
+    /* =====================================================
+       LARGE DESKTOP
+    ====================================================== */
+
+    @media (min-width: 1400px) {
+
+      .apply-panel {
+        max-width: 1450px;
+
+        padding-left: 85px;
+        padding-right: 85px;
+
+        gap: 100px;
       }
 
-      .task-content {
-        flex: 1 1 100%;
-      }
-
-      .task-content strong {
-        white-space: normal;
+      .task-item.task-with-proof {
+        grid-template-columns:
+          minmax(0, 1fr)
+          110px
+          minmax(280px, 1fr);
       }
 
       .task-link {
         min-width: 110px;
-        height: 48px;
+      }
+
+    }
+
+
+    /* =====================================================
+       TABLET
+    ====================================================== */
+
+    @media (max-width: 1100px) {
+
+      .apply-section {
+        padding: 80px 30px;
+      }
+
+      .apply-panel {
+        max-width: 1000px;
+
+        padding: 55px 45px;
+
+        grid-template-columns:
+          minmax(0, 0.8fr)
+          minmax(0, 1.2fr);
+
+        gap: 45px;
+      }
+
+      .task-item.task-with-proof {
+        grid-template-columns:
+          minmax(0, 1fr)
+          90px
+          minmax(170px, 1fr);
+
+        column-gap: 10px;
+      }
+
+      .task-link {
+        min-width: 90px;
+        padding: 0 10px;
+      }
+
+      .task-content strong {
+        font-size: 13px;
       }
 
       .proof-input {
-        flex: 1 1 calc(100% - 125px);
-        width: auto;
+        font-size: 13px;
+        padding: 0 14px;
+      }
+
+    }
+
+
+    /* =====================================================
+       MOBILE
+    ====================================================== */
+
+    @media (max-width: 800px) {
+
+      .apply-section {
+        padding: 60px 18px;
+      }
+
+      .apply-panel {
+        width: 100%;
+
+        padding: 40px 25px;
+
+        display: flex;
+        flex-direction: column;
+
+        gap: 40px;
+
+        min-height: auto;
+      }
+
+
+      /* TASKS */
+
+      .task-item,
+      .task-item.task-with-proof {
+        width: 100%;
+
+        display: grid;
+
+        grid-template-columns:
+          minmax(0, 1fr)
+          auto;
+
+        gap: 10px;
+
+        min-height: 55px;
+      }
+
+      .task-content strong {
+        font-size: 13px;
+        white-space: normal;
+      }
+
+      .task-link {
+        min-width: 95px;
+        width: 95px;
+        height: 48px;
+      }
+
+
+      /* PROOF INPUT GOES FULL WIDTH */
+
+      .task-item.task-with-proof {
+        grid-template-columns:
+          minmax(0, 1fr)
+          95px;
+      }
+
+      .task-item.task-with-proof .proof-input {
+        grid-column: 1 / -1;
+        width: 100%;
+      }
+
+
+      /* FORM */
+
+      #xUsername,
+      #wallet {
+        height: 62px;
+      }
+
+    }
+
+
+    /* =====================================================
+       SMALL MOBILE
+    ====================================================== */
+
+    @media (max-width: 480px) {
+
+      .apply-panel {
+        padding: 30px 18px;
+      }
+
+      .task-content strong {
+        font-size: 12px;
+      }
+
+      .task-link {
+        width: 85px;
+        min-width: 85px;
+
+        padding: 0 8px;
+
+        font-size: 10px;
+      }
+
+      .proof-input {
+        height: 52px;
       }
 
     }
@@ -231,9 +546,9 @@
   <div class="grain"></div>
 
 
-  <!-- =========================
+  <!-- =====================================================
        NAVIGATION
-  ========================== -->
+  ====================================================== -->
 
   <header class="nav">
 
@@ -258,9 +573,9 @@
   <main>
 
 
-    <!-- =========================
+    <!-- =====================================================
          HERO
-    ========================== -->
+    ====================================================== -->
 
     <section id="home" class="hero">
 
@@ -299,9 +614,9 @@
     </section>
 
 
-    <!-- =========================
+    <!-- =====================================================
          ART
-    ========================== -->
+    ====================================================== -->
 
     <section id="art" class="art-section">
 
@@ -350,9 +665,6 @@
             >
           </div>
 
-
-          <!-- DUPLICATES FOR INFINITE MARQUEE -->
-
           <div class="art-card">
             <img
               src="assets/art-01.jpg"
@@ -392,16 +704,16 @@
     </section>
 
 
-    <!-- =========================
-         WHITELIST APPLICATION
-    ========================== -->
+    <!-- =====================================================
+         APPLY WL
+    ====================================================== -->
 
     <section id="apply" class="apply-section">
 
       <div class="apply-panel">
 
 
-        <!-- LEFT SIDE -->
+        <!-- LEFT -->
 
         <div class="panel-copy">
 
@@ -421,7 +733,7 @@
         </div>
 
 
-        <!-- RIGHT SIDE -->
+        <!-- RIGHT -->
 
         <form id="wlForm">
 
@@ -494,7 +806,7 @@
           </div>
 
 
-          <!-- TAG FRIENDS -->
+          <!-- TAG 3 FRIENDS -->
 
           <div class="task-item task-with-proof">
 
@@ -536,7 +848,7 @@
           >
 
 
-          <!-- EVM WALLET -->
+          <!-- WALLET -->
 
           <label for="wallet">
             EVM WALLET
@@ -571,9 +883,9 @@
     </section>
 
 
-    <!-- =========================
+    <!-- =====================================================
          LEADERBOARD
-    ========================== -->
+    ====================================================== -->
 
     <section
       id="leaderboard"
@@ -653,9 +965,9 @@
     </section>
 
 
-    <!-- =========================
-         CHECK STATUS
-    ========================== -->
+    <!-- =====================================================
+         CHECK
+    ====================================================== -->
 
     <section
       id="check"
@@ -711,9 +1023,9 @@
   </main>
 
 
-  <!-- =========================
+  <!-- =====================================================
        FOOTER
-  ========================== -->
+  ====================================================== -->
 
   <footer>
 
