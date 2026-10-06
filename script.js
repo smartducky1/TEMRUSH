@@ -5,8 +5,13 @@ const toast = document.getElementById("toast");
 
 const submissions = [];
 
-// Set this after deploying Google Apps Script.
-const API_URL = "https://script.google.com/macros/s/AKfycbzPIpFMNi-imzFGVu2csJSxtfziGPPK33pl5HzZddjjA1DGYm1RD67bcGtRBHuP6QY5/exec";
+
+// =====================================================
+// GOOGLE APPS SCRIPT URL
+// =====================================================
+
+const API_URL =
+  "https://script.google.com/macros/s/AKfycbzPIpFMNi-imzFGVu2csJSxtfziGPPK33pl5HzZddjjA1DGYm1RD67bcGtRBHuP6QY5/exec";
 
 
 // =====================================================
@@ -14,40 +19,58 @@ const API_URL = "https://script.google.com/macros/s/AKfycbzPIpFMNi-imzFGVu2csJSx
 // =====================================================
 
 function shortWallet(w) {
+
   return w.length > 12
     ? `${w.slice(0, 6)}...${w.slice(-4)}`
     : w;
+
 }
 
 
 function validWallet(w) {
+
   return /^0x[a-fA-F0-9]{40}$/.test(w);
-}
 
-
-function validUrl(url) {
-  try {
-    const parsed = new URL(url);
-    return parsed.protocol === "https:" || parsed.protocol === "http:";
-  } catch {
-    return false;
-  }
 }
 
 
 // Accept any URL beginning with https://x.com/
 function validXProof(url) {
-  return /^https:\/\/x\.com\/.+/i.test(url.trim());
+
+  return /^https:\/\/x\.com\/.+/i.test(
+    url.trim()
+  );
+
+}
+
+
+// Prevent user-submitted HTML from being inserted
+// directly into the leaderboard.
+function escapeHtml(value) {
+
+  return String(value || "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+
 }
 
 
 function showToast(message) {
+
   toast.textContent = message;
+
   toast.classList.add("show");
 
+
   setTimeout(() => {
+
     toast.classList.remove("show");
+
   }, 2500);
+
 }
 
 
@@ -55,25 +78,89 @@ function showToast(message) {
 // LEADERBOARD
 // =====================================================
 
-function renderBoard() {
+function renderBoard(applications) {
+
   body.innerHTML = "";
 
-  submissions.slice().reverse().forEach((s, i) => {
-    const row = document.createElement("tr");
+
+  // No applications
+  if (
+    !applications ||
+    applications.length === 0
+  ) {
+
+    body.innerHTML = `
+      <tr>
+        <td
+          colspan="4"
+          style="text-align:center;"
+        >
+          NO APPLICATIONS YET
+        </td>
+      </tr>
+    `;
+
+    return;
+  }
+
+
+  applications.forEach((application, i) => {
+
+    const row =
+      document.createElement("tr");
+
+
+    const username =
+      escapeHtml(
+        application.xUsername
+      );
+
+
+    const wallet =
+      escapeHtml(
+        application.wallet
+      );
+
+
+    const status =
+      String(
+        application.status ||
+        "PENDING"
+      ).toUpperCase();
+
+
+    const safeStatus =
+      ["PENDING", "APPROVED", "REJECTED"]
+        .includes(status)
+        ? status
+        : "PENDING";
+
 
     row.innerHTML = `
-      <td>${String(i + 1).padStart(2, "0")}</td>
-      <td>${s.x}</td>
-      <td>${shortWallet(s.wallet)}</td>
       <td>
-        <span class="status pending">
-          PENDING
+        ${String(i + 1).padStart(2, "0")}
+      </td>
+
+      <td>
+        ${username}
+      </td>
+
+      <td>
+        ${shortWallet(wallet)}
+      </td>
+
+      <td>
+        <span class="status ${safeStatus.toLowerCase()}">
+          ${safeStatus}
         </span>
       </td>
     `;
 
+
     body.appendChild(row);
+
   });
+
 }
 
 
@@ -85,25 +172,85 @@ async function apiRequest(payload) {
 
   if (
     !API_URL ||
-    API_URL.includes("PASTE_YOUR_APPS_SCRIPT_URL_HERE")
+    API_URL.includes(
+      "PASTE_YOUR_APPS_SCRIPT_URL_HERE"
+    )
   ) {
+
     return {
       ok: false,
       localOnly: true
     };
+
   }
 
-  const response = await fetch(API_URL, {
-    method: "POST",
 
-    headers: {
-      "Content-Type": "text/plain;charset=utf-8"
-    },
+  const response =
+    await fetch(API_URL, {
 
-    body: JSON.stringify(payload)
-  });
+      method: "POST",
+
+      headers: {
+        "Content-Type":
+          "text/plain;charset=utf-8"
+      },
+
+      body:
+        JSON.stringify(payload)
+
+    });
+
 
   return await response.json();
+
+}
+
+
+// =====================================================
+// LOAD REAL LEADERBOARD
+// =====================================================
+
+async function loadLeaderboard() {
+
+  try {
+
+    const result =
+      await apiRequest({
+
+        action: "leaderboard"
+
+      });
+
+
+    if (
+      !result ||
+      !result.ok
+    ) {
+
+      console.error(
+        "Leaderboard error:",
+        result?.error
+      );
+
+      return;
+
+    }
+
+
+    renderBoard(
+      result.applications || []
+    );
+
+
+  } catch (err) {
+
+    console.error(
+      "Leaderboard request failed:",
+      err
+    );
+
+  }
+
 }
 
 
@@ -111,139 +258,248 @@ async function apiRequest(payload) {
 // WHITELIST FORM
 // =====================================================
 
-form.addEventListener("submit", async (e) => {
+form.addEventListener(
+  "submit",
+  async (e) => {
 
-  e.preventDefault();
-
-
-  // -----------------------------------------
-  // GET FORM VALUES
-  // -----------------------------------------
-
-  const x = document
-    .getElementById("xUsername")
-    .value
-    .trim();
-
-  const wallet = document
-    .getElementById("wallet")
-    .value
-    .trim();
-
-  const quoteProof = document
-    .getElementById("quoteProof")
-    .value
-    .trim();
-
-  const tagFriendsProof = document
-    .getElementById("tagFriendsProof")
-    .value
-    .trim();
+    e.preventDefault();
 
 
-  // -----------------------------------------
-  // VALIDATE X USERNAME
-  // -----------------------------------------
+    // -----------------------------------------
+    // GET FORM VALUES
+    // -----------------------------------------
 
-  if (!x) {
-    formMessage.textContent =
-      "PLEASE ENTER YOUR X USERNAME.";
-
-    return;
-  }
-
-
-  // -----------------------------------------
-  // VALIDATE WALLET
-  // -----------------------------------------
-
-  if (!validWallet(wallet)) {
-
-    formMessage.textContent =
-      "PLEASE ENTER A VALID EVM WALLET ADDRESS.";
-
-    return;
-  }
+    const x =
+      document
+        .getElementById("xUsername")
+        .value
+        .trim();
 
 
-  // -----------------------------------------
-  // VALIDATE QT PROOF
-  // -----------------------------------------
-
-  if (!quoteProof) {
-
-    formMessage.textContent =
-      "PLEASE PASTE YOUR QT LINK.";
-
-    return;
-  }
+    const wallet =
+      document
+        .getElementById("wallet")
+        .value
+        .trim();
 
 
-  if (!validXProof(quoteProof)) {
-
-    formMessage.textContent =
-      "PLEASE ENTER A VALID X / TWITTER QT LINK.";
-
-    return;
-  }
+    const quoteProof =
+      document
+        .getElementById("quoteProof")
+        .value
+        .trim();
 
 
-  // -----------------------------------------
-  // VALIDATE TAG PROOF
-  // -----------------------------------------
-
-  if (!tagFriendsProof) {
-
-    formMessage.textContent =
-      "PLEASE PASTE YOUR TAG 3 FRIENDS POST LINK.";
-
-    return;
-  }
+    const tagFriendsProof =
+      document
+        .getElementById("tagFriendsProof")
+        .value
+        .trim();
 
 
-  if (!validXProof(tagFriendsProof)) {
+    // -----------------------------------------
+    // VALIDATE X USERNAME
+    // -----------------------------------------
 
-    formMessage.textContent =
-      "PLEASE ENTER A VALID X / TWITTER POST LINK.";
+    if (!x) {
 
-    return;
-  }
+      formMessage.textContent =
+        "PLEASE ENTER YOUR X USERNAME.";
 
+      return;
 
-  // -----------------------------------------
-  // SEND TO APPS SCRIPT
-  // -----------------------------------------
-
-  try {
-
-    const result = await apiRequest({
-
-      action: "submit",
-
-      xUsername: x,
-
-      wallet: wallet,
-
-      quoteProof: quoteProof,
-
-      tagFriendsProof: tagFriendsProof
-
-    });
+    }
 
 
-    // =========================================
-    // CONNECTED TO GOOGLE APPS SCRIPT
-    // =========================================
+    // -----------------------------------------
+    // VALIDATE WALLET
+    // -----------------------------------------
 
-    if (!result.localOnly) {
+    if (!validWallet(wallet)) {
 
-      if (!result.ok) {
+      formMessage.textContent =
+        "PLEASE ENTER A VALID EVM WALLET ADDRESS.";
+
+      return;
+
+    }
+
+
+    // -----------------------------------------
+    // VALIDATE QT PROOF
+    // -----------------------------------------
+
+    if (!quoteProof) {
+
+      formMessage.textContent =
+        "PLEASE PASTE YOUR QT LINK.";
+
+      return;
+
+    }
+
+
+    if (!validXProof(quoteProof)) {
+
+      formMessage.textContent =
+        "PLEASE ENTER A VALID X / TWITTER QT LINK.";
+
+      return;
+
+    }
+
+
+    // -----------------------------------------
+    // VALIDATE TAG PROOF
+    // -----------------------------------------
+
+    if (!tagFriendsProof) {
+
+      formMessage.textContent =
+        "PLEASE PASTE YOUR TAG 3 FRIENDS POST LINK.";
+
+      return;
+
+    }
+
+
+    if (!validXProof(tagFriendsProof)) {
+
+      formMessage.textContent =
+        "PLEASE ENTER A VALID X / TWITTER POST LINK.";
+
+      return;
+
+    }
+
+
+    // -----------------------------------------
+    // SEND TO APPS SCRIPT
+    // -----------------------------------------
+
+    try {
+
+      const result =
+        await apiRequest({
+
+          action: "submit",
+
+          xUsername: x,
+
+          wallet: wallet,
+
+          quoteProof: quoteProof,
+
+          tagFriendsProof:
+            tagFriendsProof
+
+        });
+
+
+      // =========================================
+      // CONNECTED TO GOOGLE APPS SCRIPT
+      // =========================================
+
+      if (!result.localOnly) {
+
+        if (!result.ok) {
+
+          formMessage.textContent =
+            result.error ||
+            "Submission failed.";
+
+          return;
+
+        }
+
+
+        form.reset();
+
 
         formMessage.textContent =
-          result.error || "Submission failed.";
+          "Application received — approval pending.";
+
+
+        showToast(
+          "APPLICATION RECEIVED"
+        );
+
+
+        // Immediately reload leaderboard
+        await loadLeaderboard();
+
+
+        // Scroll to leaderboard
+        document
+          .getElementById("leaderboard")
+          .scrollIntoView({
+            behavior: "smooth"
+          });
+
 
         return;
+
       }
+
+
+      // =========================================
+      // LOCAL FALLBACK
+      // =========================================
+
+      if (
+        submissions.some(
+          s =>
+            s.wallet.toLowerCase() ===
+            wallet.toLowerCase()
+        )
+      ) {
+
+        formMessage.textContent =
+          "HEY — THIS WALLET HAS ALREADY BEEN SUBMITTED.";
+
+        return;
+
+      }
+
+
+      submissions.push({
+
+        x:
+          x.startsWith("@")
+            ? x
+            : "@" + x,
+
+        wallet:
+          wallet,
+
+        quoteProof:
+          quoteProof,
+
+        tagFriendsProof:
+          tagFriendsProof
+
+      });
+
+
+      renderBoard(
+
+        submissions
+          .slice()
+          .reverse()
+          .map(s => ({
+
+            xUsername:
+              s.x,
+
+            wallet:
+              s.wallet,
+
+            status:
+              "PENDING"
+
+          }))
+
+      );
 
 
       form.reset();
@@ -253,77 +509,29 @@ form.addEventListener("submit", async (e) => {
         "Application received — approval pending.";
 
 
-      showToast("APPLICATION RECEIVED");
+      showToast(
+        "APPLICATION RECEIVED"
+      );
 
 
-      return;
-    }
+      document
+        .getElementById("leaderboard")
+        .scrollIntoView({
+          behavior: "smooth"
+        });
 
 
-    // =========================================
-    // LOCAL FALLBACK
-    // =========================================
+    } catch (err) {
 
-    if (
-      submissions.some(
-        s =>
-          s.wallet.toLowerCase() ===
-          wallet.toLowerCase()
-      )
-    ) {
+      console.error(err);
 
       formMessage.textContent =
-        "HEY — THIS WALLET HAS ALREADY BEEN SUBMITTED.";
+        "Submission service is unavailable.";
 
-      return;
     }
 
-
-    submissions.push({
-
-      x: x.startsWith("@")
-        ? x
-        : "@" + x,
-
-      wallet: wallet,
-
-      quoteProof: quoteProof,
-
-      tagFriendsProof: tagFriendsProof
-
-    });
-
-
-    renderBoard();
-
-
-    form.reset();
-
-
-    formMessage.textContent =
-      "Application received — approval pending.";
-
-
-    showToast("APPLICATION RECEIVED");
-
-
-    document
-      .getElementById("leaderboard")
-      .scrollIntoView({
-        behavior: "smooth"
-      });
-
-
-  } catch (err) {
-
-    console.error(err);
-
-    formMessage.textContent =
-      "Submission service is unavailable.";
-
   }
-
-});
+);
 
 
 // =====================================================
@@ -332,77 +540,114 @@ form.addEventListener("submit", async (e) => {
 
 document
   .getElementById("checkButton")
-  .addEventListener("click", async () => {
+  .addEventListener(
+    "click",
+    async () => {
 
-    const wallet = document
-      .getElementById("checkWallet")
-      .value
-      .trim();
-
-    const result =
-      document.getElementById("checkResult");
-
-
-    if (!validWallet(wallet)) {
-
-      result.textContent =
-        "ENTER A VALID EVM WALLET.";
-
-      return;
-    }
+      const wallet =
+        document
+          .getElementById("checkWallet")
+          .value
+          .trim();
 
 
-    try {
-
-      const data = await apiRequest({
-
-        action: "check",
-
-        wallet: wallet
-
-      });
+      const result =
+        document
+          .getElementById("checkResult");
 
 
-      // =========================================
-      // CONNECTED
-      // =========================================
+      if (!validWallet(wallet)) {
 
-      if (!data.localOnly) {
-
-        result.textContent = data.ok
-          ? `APPLICATION FOUND — STATUS: ${String(data.status).toUpperCase()}`
-          : "NO APPLICATION FOUND FOR THIS WALLET.";
+        result.textContent =
+          "ENTER A VALID EVM WALLET.";
 
         return;
+
       }
 
 
-      // =========================================
-      // LOCAL FALLBACK
-      // =========================================
+      try {
 
-      const found = submissions.find(
-        s =>
-          s.wallet.toLowerCase() ===
-          wallet.toLowerCase()
-      );
+        const data =
+          await apiRequest({
 
+            action: "check",
 
-      result.textContent = found
-        ? "APPLICATION FOUND — STATUS: PENDING"
-        : "NO APPLICATION FOUND FOR THIS WALLET.";
+            wallet: wallet
+
+          });
 
 
-    } catch (err) {
+        // =========================================
+        // CONNECTED
+        // =========================================
 
-      console.error(err);
+        if (!data.localOnly) {
 
-      result.textContent =
-        "CHECKER SERVICE IS UNAVAILABLE.";
+          result.textContent =
+            data.ok
+
+              ? `APPLICATION FOUND — STATUS: ${String(
+                  data.status
+                ).toUpperCase()}`
+
+              : "NO APPLICATION FOUND FOR THIS WALLET.";
+
+          return;
+
+        }
+
+
+        // =========================================
+        // LOCAL FALLBACK
+        // =========================================
+
+        const found =
+          submissions.find(
+            s =>
+              s.wallet.toLowerCase() ===
+              wallet.toLowerCase()
+          );
+
+
+        result.textContent =
+          found
+
+            ? "APPLICATION FOUND — STATUS: PENDING"
+
+            : "NO APPLICATION FOUND FOR THIS WALLET.";
+
+
+      } catch (err) {
+
+        console.error(err);
+
+        result.textContent =
+          "CHECKER SERVICE IS UNAVAILABLE.";
+
+      }
 
     }
+  );
 
-  });
+
+// =====================================================
+// INITIAL LEADERBOARD LOAD
+// =====================================================
+
+loadLeaderboard();
+
+
+// =====================================================
+// AUTOMATIC LEADERBOARD REFRESH
+// =====================================================
+
+// Check Google Sheets every 5 seconds.
+setInterval(() => {
+
+  loadLeaderboard();
+
+}, 5000);
 
 
 // =====================================================
@@ -410,25 +655,33 @@ document
 // =====================================================
 
 document
-  .querySelectorAll('a[href^="#"]')
+  .querySelectorAll(
+    'a[href^="#"]'
+  )
   .forEach(a => {
 
-    a.addEventListener("click", e => {
+    a.addEventListener(
+      "click",
+      e => {
 
-      const el = document.querySelector(
-        a.getAttribute("href")
-      );
+        const el =
+          document.querySelector(
+            a.getAttribute("href")
+          );
 
-      if (el) {
 
-        e.preventDefault();
+        if (el) {
 
-        el.scrollIntoView({
-          behavior: "smooth"
-        });
+          e.preventDefault();
+
+
+          el.scrollIntoView({
+            behavior: "smooth"
+          });
+
+        }
 
       }
-
-    });
+    );
 
   });
